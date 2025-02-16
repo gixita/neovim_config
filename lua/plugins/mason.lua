@@ -12,6 +12,7 @@ return {
       "ruff",
       "pyright",
       "mypy",
+      "debugpy",
     },
   },
   ---@param opts MasonSettings | {ensure_installed: string[]}
