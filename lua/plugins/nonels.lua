@@ -36,6 +36,7 @@ return {
         nls.builtins.diagnostics.mypy,
         nls.builtins.formatting.stylua,
         nls.builtins.formatting.shfmt,
+        nls.builtins.formatting.isort,
       })
     end,
   },

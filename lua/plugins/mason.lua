@@ -13,6 +13,7 @@ return {
       "pyright",
       "mypy",
       "debugpy",
+      "isort",
     },
   },
   ---@param opts MasonSettings | {ensure_installed: string[]}
