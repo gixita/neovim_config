@@ -29,3 +29,5 @@ When running a ipynb file, everything should spin automatically, but if you want
 
 :MoltenInit
 :QuartoActivate
+
+The all the useful commands (for me) can be triggered by <leader>j

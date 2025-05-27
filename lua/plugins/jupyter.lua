@@ -1,3 +1,4 @@
+-- See readme to setup the ipykernel for a project
 return {
   {
     "benlubas/molten-nvim",
@@ -9,8 +10,11 @@ return {
       vim.g.molten_image_provider = "image.nvim"
       vim.g.molten_output_win_max_height = 20
 
-      -- Set output sticky behavior
-      vim.g.molten_virt_text_output = true -- Keep output windows open when moving cursor
+      vim.g.molten_virt_text_output = true
+
+      --      vim.g.molten_auto_open_output = false
+      --      vim.g.molten_output_show_cursor = false -- Don't show output when cursor is on cell
+      --      vim.g.molten_enter_output_behavior = "open_then_enter"
     end,
     config = function()
       -- Add an autocmd to run MoltenInit only for ipynb files
@@ -77,15 +81,24 @@ return {
       local runner = require("quarto.runner")
       local wk = require("which-key")
       wk.add({
-        { "<leader>r", group = "Jupyter run" },
+        { "<leader>j", group = "Jupyter run" },
       })
       -- Add your keymaps
-      vim.keymap.set("n", "<leader>rc", runner.run_cell, { desc = "Jupyter run cell", silent = true })
-      vim.keymap.set("n", "<leader>ra", runner.run_above, { desc = "Jupyter run cell and above", silent = true })
-      vim.keymap.set("n", "<leader>rA", runner.run_all, { desc = "Jupyter run all cells", silent = true })
-      vim.keymap.set("n", "<leader>rl", runner.run_line, { desc = "Jupyter run line", silent = true })
-      vim.keymap.set("v", "<leader>r", runner.run_range, { desc = "Jupyter run visual range", silent = true })
-      vim.keymap.set("n", "<leader>rF", function()
+      vim.keymap.set("n", "<leader>jc", runner.run_cell, { desc = "Jupyter run cell", silent = true })
+      vim.keymap.set("n", "<leader>ja", runner.run_above, { desc = "Jupyter run cell and above", silent = true })
+      vim.keymap.set("n", "<leader>jA", runner.run_all, { desc = "Jupyter run all cells", silent = true })
+      vim.keymap.set("n", "<leader>jL", runner.run_line, { desc = "Jupyter run line", silent = true })
+      vim.keymap.set("v", "<leader>j", runner.run_range, { desc = "Jupyter run visual range", silent = true })
+      vim.keymap.set("n", "<leader>ji", ":MoltenInit<CR>", { desc = "MoltenInit", silent = true })
+      vim.keymap.set(
+        "n",
+        "<leader>jo",
+        ":MoltenShowOutput<CR>:noautocmd MoltenEnterOutput<CR>",
+        { desc = "Molten enter output", silent = true }
+      )
+      vim.keymap.set("v", "<leader>jj", ":<C-u>MoltenEvaluateVisual<CR>", { desc = "Molten run visual", silent = true })
+      vim.keymap.set("n", "<leader>jj", ":MoltenEvaluateLine<CR>", { desc = "Molten run line", silent = true })
+      vim.keymap.set("n", "<leader>jF", function()
         runner.run_all(true)
       end, { desc = "run all cells (forced)", silent = true })
     end,
