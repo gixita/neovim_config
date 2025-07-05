@@ -14,6 +14,9 @@ local function setup_spelling()
   -- Set the default spelling languages to English and French
   vim.opt.spelllang = { "en", "fr" }
 
+  -- Configure spell suggestions to show in command line instead of new window
+  vim.opt.spellsuggest = "best,9"
+
   -- Optional: Set the spellfile location (for adding words)
   vim.opt.spellfile = vim.fn.expand("~/.config/nvim/spell/en.utf-8.add,~/.config/nvim/spell/fr.utf-8.add")
 
@@ -35,16 +38,4 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- Optional: Custom keymaps for spell checking
-vim.keymap.set("n", "<leader>se", function()
-  vim.opt.spelllang = { "en" }
-end, { desc = "Switch to English spelling" })
-vim.keymap.set("n", "<leader>sf", function()
-  vim.opt.spelllang = { "fr" }
-end, { desc = "Switch to French spelling" })
-vim.keymap.set("n", "<leader>sb", function()
-  vim.opt.spelllang = { "en", "fr" }
-end, { desc = "Use both English and French" })
-vim.keymap.set("n", "<leader>sn", function()
-  vim.opt.spell = not vim.opt.spell:get()
-end, { desc = "Toggle spell checking" })
+-- Spell keymaps are now in lua/config/keymaps.lua under <leader>sz prefix

@@ -5,3 +5,7 @@
 
 vim.g.lazyvim_python_ruff = "ruff"
 vim.g.lazyvim_python_lsp = "pyright"
+
+-- Completion behavior settings
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
+vim.opt.pumheight = 10 -- Limit completion menu height
