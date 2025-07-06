@@ -1,29 +1,25 @@
 return {
-  -- Disable neo-tree completely
-  {
-    "nvim-neo-tree/neo-tree.nvim",
-    enabled = false,
-  },
-
-  -- Override LazyVim's neo-tree keymap configuration
-  {
-    "LazyVim/LazyVim",
-    opts = function(_, opts)
-      -- Remove neo-tree keymaps
-      if opts.keys then
-        opts.keys = vim.tbl_filter(function(key)
-          return key[1] ~= "<leader>e" and key[1] ~= "<leader>E"
-        end, opts.keys)
-      end
-      return opts
-    end,
-  },
-
   -- Add oil.nvim
   {
     "stevearc/oil.nvim",
+    event = "VeryLazy",
     priority = 1000,
-    lazy = false,
+    config = function()
+      require("oil").setup({
+        -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
+        default_file_explorer = true,
+        -- Rest of config will be in opts
+      })
+      
+      -- Set up keymaps after setup
+      vim.keymap.set("n", "<leader>e", function()
+        require("oil").open()
+      end, { desc = "Open oil file explorer" })
+      
+      vim.keymap.set("n", "<leader>-", function()
+        require("oil").open_float()
+      end, { desc = "Open oil in floating window" })
+    end,
     opts = {
       -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
       default_file_explorer = true,
@@ -161,21 +157,12 @@ return {
     },
     -- Optional dependencies
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    keys = {
-      {
-        "<leader>e",
-        function()
-          require("oil").open()
-        end,
-        desc = "Open oil file explorer",
-      },
-      {
-        "<leader>-",
-        function()
-          require("oil").open_float()
-        end,
-        desc = "Open oil in floating window",
-      },
-    },
+  },
+
+  {
+    "nvim-neo-tree/neo-tree.nvim",
+    enabled = false,
+    lazy = false,
+    priority = 2000, -- Higher than oil.nvim
   },
 }
