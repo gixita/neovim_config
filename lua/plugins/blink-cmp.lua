@@ -2,8 +2,8 @@ return {
   "saghen/blink.cmp",
   opts = {
     keymap = {
-      -- Disable automatic confirmation on Enter
-      ["<CR>"] = {},
+      -- Accept completion on Enter only if an item is selected
+      ["<CR>"] = { "accept", "fallback" },
       -- Use Ctrl+y to manually confirm completion
       ["<C-y>"] = { "accept", "fallback" },
       -- Use Tab to accept completion

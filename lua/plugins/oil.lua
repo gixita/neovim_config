@@ -2,7 +2,7 @@ return {
   -- Add oil.nvim
   {
     "stevearc/oil.nvim",
-    event = "VeryLazy",
+    --event = "VeryLazy",
     priority = 1000,
     config = function()
       require("oil").setup({
@@ -141,7 +141,7 @@ return {
       })
 
       -- Set up keymaps after setup
-      vim.keymap.set("n", "<leader>e", function()
+      vim.keymap.set("n", "<leader>o", function()
         require("oil").open()
       end, { desc = "Open oil file explorer" })
 
