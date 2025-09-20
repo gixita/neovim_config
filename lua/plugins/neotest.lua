@@ -7,18 +7,48 @@ return {
     "nvim-treesitter/nvim-treesitter",
     "nvim-neotest/neotest-python",
   },
+  lazy = true,
+  keys = {
+    { "<leader>c", group = "Code" },
+    { "<leader>ct", group = "Tests" },
+    { "<leader>ctt", function() require("neotest").run.run() end, desc = "Run nearest test" },
+    { "<leader>ctf", function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "Run tests in file" },
+    { "<leader>cta", function() require("neotest").run.run(vim.fn.getcwd()) end, desc = "Run all tests" },
+    { "<leader>cts", function() require("neotest").summary.toggle() end, desc = "Toggle test summary" },
+    { "<leader>cto", function() require("neotest").output.open({ enter = true }) end, desc = "Open test output" },
+    { "<leader>ctO", function() require("neotest").output_panel.toggle() end, desc = "Toggle output panel" },
+    { "<leader>ctd", function() require("neotest").run.run({ strategy = "dap" }) end, desc = "Debug nearest test" },
+    { "<leader>ctq", function() require("neotest").run.stop() end, desc = "Stop tests" },
+    { "]t", function() require("neotest").jump.next({ status = "failed" }) end, desc = "Jump to next failed test" },
+    { "[t", function() require("neotest").jump.prev({ status = "failed" }) end, desc = "Jump to previous failed test" },
+  },
   config = function()
     require("neotest").setup({
       adapters = {
         require("neotest-python")({
           dap = { justMyCode = false },
           runner = "pytest",
-          pytest_discover_instances = true,
+          pytest_discover_instances = false, -- Disable for better performance
+          args = { "--tb=short", "--maxfail=1" }, -- Faster pytest execution
         }),
       },
       discovery = {
         enabled = true,
-        concurrent = 1,
+        concurrent = 4, -- Increase concurrent discovery
+        filter_dir = function(name, rel_path, root)
+          -- Skip common directories that don't contain tests
+          return not vim.tbl_contains({
+            ".git",
+            "node_modules",
+            ".venv",
+            "venv",
+            "__pycache__",
+            ".pytest_cache",
+            ".mypy_cache",
+            "build",
+            "dist",
+          }, name)
+        end,
       },
       running = {
         concurrent = true,
@@ -43,58 +73,6 @@ return {
       },
     })
 
-    -- Key mappings with <leader>c prefix for code actions
-    local map = vim.keymap.set
-
-    -- Set up which-key group
-    local wk = require("which-key")
-    wk.add({
-      { "<leader>c", group = "Code" },
-      { "<leader>ct", group = "Tests" },
-    })
-
-    -- Test running with <leader>c prefix
-    map("n", "<leader>ctt", function()
-      require("neotest").run.run()
-    end, { desc = "Run nearest test" })
-
-    map("n", "<leader>ctf", function()
-      require("neotest").run.run(vim.fn.expand("%"))
-    end, { desc = "Run tests in file" })
-
-    map("n", "<leader>cta", function()
-      require("neotest").run.run(vim.fn.getcwd())
-    end, { desc = "Run all tests" })
-
-    map("n", "<leader>cts", function()
-      require("neotest").summary.toggle()
-    end, { desc = "Toggle test summary" })
-
-    map("n", "<leader>cto", function()
-      require("neotest").output.open({ enter = true })
-    end, { desc = "Open test output" })
-
-    map("n", "<leader>ctO", function()
-      require("neotest").output_panel.toggle()
-    end, { desc = "Toggle output panel" })
-
-    -- Test debugging (integrates with your existing DAP setup)
-    map("n", "<leader>ctd", function()
-      require("neotest").run.run({ strategy = "dap" })
-    end, { desc = "Debug nearest test" })
-
-    -- Stop tests
-    map("n", "<leader>ctq", function()
-      require("neotest").run.stop()
-    end, { desc = "Stop tests" })
-
-    -- Jump to tests
-    map("n", "]t", function()
-      require("neotest").jump.next({ status = "failed" })
-    end, { desc = "Jump to next failed test" })
-
-    map("n", "[t", function()
-      require("neotest").jump.prev({ status = "failed" })
-    end, { desc = "Jump to previous failed test" })
+    -- All keymaps are now defined in the keys table above for consistency
   end,
 }

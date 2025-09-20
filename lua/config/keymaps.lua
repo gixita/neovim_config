@@ -16,6 +16,8 @@ wk.add({
   { "<C-o>", "<C-o>", desc = "Jump back in jumplist" },
   { "<C-i>", "<C-i>", desc = "Jump forward in jumplist" },
   { "<leader>sz", group = "Spell check tools" },
+  { "<leader>c", group = "Code" },
+  { "<leader>ct", group = "Tests" },
   { "<leader>cz", group = "Fold code" },
 })
 

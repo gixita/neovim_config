@@ -1,3 +1,3 @@
 return function()
-  vim.cmd([[colorscheme catppuccin-frappe]])
+  vim.cmd([[colorscheme tokyonight]])
 end

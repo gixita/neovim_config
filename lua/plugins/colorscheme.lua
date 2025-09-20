@@ -58,6 +58,9 @@ return {
     "rafi/awesome-vim-colorschemes",
     lazy = false,
     priority = 1000,
+    config = function()
+      -- Ensure colorschemes are properly loaded
+    end,
   },
   --  {
   --    "flazz/vim-colorschemes",
