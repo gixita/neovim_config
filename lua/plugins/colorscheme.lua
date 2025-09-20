@@ -54,4 +54,24 @@ return {
     lazy = false,
     priority = 1000,
   },
+  {
+    "rafi/awesome-vim-colorschemes",
+    lazy = false,
+    priority = 1000,
+  },
+  --  {
+  --    "flazz/vim-colorschemes",
+  --    lazy = false,
+  --    priority = 1000,
+  --  },
+  -- Persistent colorscheme plugin
+  {
+    dir = vim.fn.stdpath("config") .. "/lua/_colour",
+    name = "persistent-colorscheme",
+    lazy = false,
+    priority = 900,
+    config = function()
+      require("_colour").setup()
+    end,
+  },
 }
