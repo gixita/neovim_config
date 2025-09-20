@@ -16,7 +16,17 @@ wk.add({
   { "<C-o>", "<C-o>", desc = "Jump back in jumplist" },
   { "<C-i>", "<C-i>", desc = "Jump forward in jumplist" },
   { "<leader>sz", group = "Spell check tools" },
+  { "<leader>cz", group = "Fold code" },
 })
+
+-- Fold code keymaps
+map("n", "<leader>cza", "za", { desc = "Toggle fold at cursor" })
+map("n", "<leader>czo", "zR", { desc = "Open all folds" })
+map("n", "<leader>czc", "zM", { desc = "Close all folds" })
+map("n", "<leader>czm", "zc", { desc = "Close fold at cursor" })
+map("n", "<leader>czr", "zo", { desc = "Open fold at cursor" })
+map("n", "<leader>czj", "zj", { desc = "Move to next fold" })
+map("n", "<leader>czk", "zk", { desc = "Move to previous fold" })
 -- Custom spell suggestion function using vim.ui.select
 local function spell_suggest()
   local word = vim.fn.expand("<cword>")
