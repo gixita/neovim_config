@@ -4,7 +4,20 @@ return {
     "benlubas/molten-nvim",
     version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes
     dependencies = { "3rd/image.nvim", "quarto-dev/quarto-nvim" },
-    build = ":UpdateRemotePlugins",
+    build = function()
+      -- Only run UpdateRemotePlugins if Python host is working
+      local python_host = vim.g.python3_host_prog or "python3"
+      local handle = io.popen(python_host .. " -c 'import sys; print(sys.executable)' 2>/dev/null")
+      if handle then
+        local result = handle:read("*a")
+        handle:close()
+        if result and result:match("%S") then
+          vim.cmd("UpdateRemotePlugins")
+        else
+          vim.notify("Skipping UpdateRemotePlugins - Python host not available", vim.log.levels.WARN)
+        end
+      end
+    end,
     init = function()
       -- these are examples, not defaults. Please see the readme
       vim.g.molten_image_provider = "image.nvim"
@@ -53,7 +66,29 @@ return {
       max_width_window_percentage = math.huge,
       window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
       window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+      integrations = {
+        markdown = {
+          enabled = true,
+          clear_in_insert_mode = false,
+          download_remote_images = true,
+          only_render_image_at_cursor = false,
+          filetypes = { "markdown", "vimwiki" },
+        },
+      },
     },
+    config = function(_, opts)
+      -- Only setup if we can get terminal size
+      local ok, _ = pcall(function()
+        local term = require("image.utils.term")
+        term.get_size()
+      end)
+
+      if ok then
+        require("image").setup(opts)
+      else
+        vim.notify("image.nvim: Could not detect terminal size, skipping setup", vim.log.levels.WARN)
+      end
+    end,
   },
   { -- requires plugins in lua/plugins/treesitter.lua and lua/plugins/lsp.lua
     -- for complete functionality (language features)
@@ -73,6 +108,7 @@ return {
       -- for language features in code cells
       -- configured in lua/plugins/lsp.lua
       "jmbuhr/otter.nvim",
+      "folke/which-key.nvim",
     },
     config = function(_, opts)
       require("quarto").setup(opts)

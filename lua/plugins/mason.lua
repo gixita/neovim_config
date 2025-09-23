@@ -1,6 +1,6 @@
 return {
 
-  "williamboman/mason.nvim",
+  "mason-org/mason.nvim",
   cmd = "Mason",
   keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
   build = ":MasonUpdate",
@@ -34,7 +34,15 @@ return {
       for _, tool in ipairs(opts.ensure_installed) do
         local p = mr.get_package(tool)
         if not p:is_installed() then
-          p:install()
+          -- Add delay and check to prevent race condition
+          vim.defer_fn(function()
+            if not p:is_installed() then
+              local ok, err = pcall(function() p:install() end)
+              if not ok and err and not err:match("already installing") then
+                vim.notify("Mason install error for " .. tool .. ": " .. err, vim.log.levels.WARN)
+              end
+            end
+          end, math.random(50, 200)) -- Random delay to prevent simultaneous installs
         end
       end
     end)
