@@ -10,15 +10,15 @@ vim.opt.conceallevel = 0
 -- Comment this if not using a monorepo
 vim.g.root_spec = { "cwd" }
 
-vim.api.nvim_create_autocmd({ "VimLeave", "FocusLost" }, {
-  pattern = "*",
-  command = "silent !zellij action switch-mode normal",
-})
-
-vim.api.nvim_create_autocmd({ "VimEnter", "FocusGained" }, {
-  pattern = "*",
-  command = "silent !zellij action switch-mode locked",
-})
+-- vim.api.nvim_create_autocmd({ "VimLeave", "FocusLost" }, {
+--   pattern = "*",
+--   command = "silent !zellij action switch-mode normal",
+-- })
+--
+-- vim.api.nvim_create_autocmd({ "VimEnter", "FocusGained" }, {
+--   pattern = "*",
+--   command = "silent !zellij action switch-mode locked",
+-- })
 require("lspconfig").ruff.setup({
   init_options = {
     settings = {

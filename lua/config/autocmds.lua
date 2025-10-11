@@ -39,3 +39,14 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- Spell keymaps are now in lua/config/keymaps.lua under <leader>sz prefix
+
+-- Force normal mode when losing focus (helps with Zellij tab switching)
+-- vim.api.nvim_create_autocmd({ "FocusLost" }, {
+--   pattern = "*",
+--   callback = function()
+--     if vim.fn.mode() ~= "n" then
+--       vim.cmd("stopinsert")
+--       vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "n", false)
+--     end
+--   end,
+-- })
