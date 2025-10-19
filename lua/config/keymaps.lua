@@ -10,11 +10,18 @@ map("t", "<ESC>", "<C-\\><C-n>")
 map("t", "jj", "<C-\\><C-n>")
 map("n", "<leader>zz", "<leader>w_")
 
+-- Terminal keymaps
+map("n", "<leader>tt", "<cmd>terminal<cr>", { desc = "Open terminal in buffer" })
+map("n", "<leader>tv", "<cmd>vsplit | terminal<cr>", { desc = "Open terminal in vertical split" })
+map("n", "<leader>th", "<cmd>split | terminal<cr>", { desc = "Open terminal in horizontal split" })
+map("n", "<leader>ts", "<cmd>split | terminal<cr>", { desc = "Open terminal in horizontal split" })
+
 -- Jump navigation keymaps
 local wk = require("which-key")
 wk.add({
   { "<C-o>", "<C-o>", desc = "Jump back in jumplist" },
   { "<C-i>", "<C-i>", desc = "Jump forward in jumplist" },
+  { "<leader>t", group = "Terminal" },
   { "<leader>sz", group = "Spell check tools" },
   { "<leader>c", group = "Code" },
   { "<leader>ct", group = "Tests" },
