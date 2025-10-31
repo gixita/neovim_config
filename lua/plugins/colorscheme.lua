@@ -26,38 +26,32 @@ return {
       },
     },
   },
-  -- Add additional colorschemes
+  -- Add additional colorschemes (lazy-loaded for better performance)
   {
     "ellisonleao/gruvbox.nvim",
-    lazy = false,
-    priority = 1000,
+    lazy = true,
   },
   {
     "rose-pine/neovim",
     name = "rose-pine",
-    lazy = false,
-    priority = 1000,
+    lazy = true,
   },
   {
     "rebelot/kanagawa.nvim",
-    lazy = false,
-    priority = 1000,
+    lazy = true,
   },
   {
     "sainnhe/everforest",
-    lazy = false,
-    priority = 1000,
+    lazy = true,
   },
   {
     "nordtheme/vim",
     name = "nord",
-    lazy = false,
-    priority = 1000,
+    lazy = true,
   },
   {
     "rafi/awesome-vim-colorschemes",
-    lazy = false,
-    priority = 1000,
+    lazy = true,
     config = function()
       -- Ensure colorschemes are properly loaded
     end,
