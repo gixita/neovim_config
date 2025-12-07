@@ -40,17 +40,6 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- Spell keymaps are now in lua/config/keymaps.lua under <leader>sz prefix
 
--- Disable inlay hints for Rust to avoid rendering errors
-vim.api.nvim_create_autocmd("LspAttach", {
-  pattern = "*.rs",
-  callback = function(args)
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if client and client.name == "rust_analyzer" then
-      vim.lsp.inlay_hint.enable(false, { bufnr = args.buf })
-    end
-  end,
-})
-
 -- Force normal mode when losing focus (helps with Zellij tab switching)
 -- vim.api.nvim_create_autocmd({ "FocusLost" }, {
 --   pattern = "*",

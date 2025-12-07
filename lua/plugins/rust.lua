@@ -1,65 +1,10 @@
 return {
-  -- Rust LSP configuration
+  -- Disable default rust-analyzer from lspconfig (rustaceanvim handles it)
   {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        rust_analyzer = {
-          settings = {
-            ["rust-analyzer"] = {
-              cargo = {
-                allFeatures = false, -- Only load default features for better performance
-                loadOutDirsFromCheck = true,
-                buildScripts = {
-                  enable = true,
-                },
-              },
-              checkOnSave = {
-                command = "check", -- Use 'check' instead of 'clippy' for faster checks
-              },
-              procMacro = {
-                enable = true,
-              },
-              diagnostics = {
-                enable = true,
-                experimental = {
-                  enable = false, -- Disable experimental diagnostics for performance
-                },
-              },
-              inlayHints = {
-                bindingModeHints = {
-                  enable = false,
-                },
-                chainingHints = {
-                  enable = true,
-                },
-                closingBraceHints = {
-                  minLines = 25,
-                },
-                closureReturnTypeHints = {
-                  enable = "never",
-                },
-                lifetimeElisionHints = {
-                  enable = "never",
-                  useParameterNames = false,
-                },
-                maxLength = 25,
-                parameterHints = {
-                  enable = true,
-                },
-                reborrowHints = {
-                  enable = "never",
-                },
-                renderColons = true,
-                typeHints = {
-                  enable = true,
-                  hideClosureInitialization = false,
-                  hideNamedConstructor = false,
-                },
-              },
-            },
-          },
-        },
+        rust_analyzer = false, -- Disable, rustaceanvim handles it
       },
     },
   },
@@ -74,9 +19,6 @@ return {
       vim.g.rustaceanvim = {
         server = {
           on_attach = function(client, bufnr)
-            -- Disable inlay hints to avoid rendering errors
-            vim.lsp.inlay_hint.enable(false, { bufnr = bufnr })
-
             -- Keybindings for Rust-specific features
             local opts = { buffer = bufnr, noremap = true, silent = true }
             vim.keymap.set("n", "<leader>ca", function()
@@ -102,6 +44,17 @@ return {
               },
               checkOnSave = {
                 command = "check", -- Use 'check' instead of 'clippy' for faster checks
+              },
+              imports = {
+                granularity = {
+                  group = "module",
+                },
+                prefix = "self",
+              },
+              completion = {
+                autoimport = {
+                  enable = true, -- Enable auto-import suggestions
+                },
               },
             },
           },
@@ -134,6 +87,13 @@ return {
     opts = {
       formatters_by_ft = {
         rust = { "rustfmt" },
+      },
+      formatters = {
+        rustfmt = {
+          -- Only format stdin, don't check project-wide
+          args = { "--edition=2021" },
+          stdin = true,
+        },
       },
     },
   },

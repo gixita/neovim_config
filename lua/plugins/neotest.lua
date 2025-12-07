@@ -6,6 +6,7 @@ return {
     "antoinemadec/FixCursorHold.nvim",
     "nvim-treesitter/nvim-treesitter",
     "nvim-neotest/neotest-python",
+    "rouge8/neotest-rust",
   },
   lazy = true,
   keys = {
@@ -31,6 +32,7 @@ return {
           pytest_discover_instances = false, -- Disable for better performance
           args = { "--tb=short", "--maxfail=1" }, -- Faster pytest execution
         }),
+        require("neotest-rust"),
       },
       discovery = {
         enabled = true,
