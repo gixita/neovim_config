@@ -14,3 +14,6 @@ vim.opt.pumheight = 10 -- Limit completion menu height
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 -- vim.g.lazyvim_no_neo_tree = true
+
+-- Enable system clipboard integration (Wayland)
+vim.opt.clipboard = "unnamedplus"
