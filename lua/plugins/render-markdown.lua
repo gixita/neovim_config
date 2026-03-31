@@ -18,7 +18,19 @@ return {
     },
   },
   keys = {
-    { "<leader>cm", "<cmd>RenderMarkdown toggle<cr>", desc = "Toggle markdown render" },
+    {
+      "<leader>cr",
+      function()
+        require("render-markdown").toggle()
+        local image = require("image")
+        if require("render-markdown").get() then
+          image.enable()
+        else
+          image.disable()
+        end
+      end,
+      desc = "Toggle markdown render",
+    },
   },
 }
 
