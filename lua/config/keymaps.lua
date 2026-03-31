@@ -74,3 +74,5 @@ end, { desc = "Use both English and French" })
 map("n", "<leader>szt", function()
   vim.opt.spell = not vim.opt.spell:get()
 end, { desc = "Toggle spell checking" })
+
+map("x", "p", '"_dP', { desc = "Paste without replacing clipboard" })

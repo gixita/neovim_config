@@ -2,13 +2,6 @@ return {
   {
     "ojroques/nvim-osc52",
     config = function()
-      require("osc52").setup({
-        max_length = 0, -- Maximum length of selection (0 for no limit)
-        silent = false, -- Disable message on successful copy
-        trim = false, -- Trim surrounding whitespaces before copy
-      })
-
-      -- Auto-use OSC52 when SSH session is detected
       local function copy(lines, _)
         require("osc52").copy(table.concat(lines, "\n"))
       end
@@ -22,6 +15,9 @@ return {
         copy = { ["+"] = copy, ["*"] = copy },
         paste = { ["+"] = paste, ["*"] = paste },
       }
+    end,
+    cond = function()
+      return vim.env.SSH_TTY ~= nil
     end,
   },
 }
