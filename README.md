@@ -1,3 +1,5 @@
+!!! Moved to https://codeberg.org/gixita/nvim_config
+
 # Jupyter notebook configuration
 
 The jupyter notebook configuration is a bit involved, but worth it.
